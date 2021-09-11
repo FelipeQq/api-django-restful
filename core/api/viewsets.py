@@ -1,5 +1,7 @@
 from django.db.models import query
+from rest_framework.authentication import TokenAuthentication
 from rest_framework.filters import SearchFilter
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
 from core.api.serializers import PontoTuristicoSerializer
 from core.models import PontoTuristico
@@ -8,6 +10,8 @@ from core.models import PontoTuristico
 class PontoTuristicoViewSet(ModelViewSet):
     serializer_class = PontoTuristicoSerializer
     filter_backends = (SearchFilter,)
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
     search_fields = ("nome", "descricao", "^endereco__linha1")
 
     def get_queryset(self):
